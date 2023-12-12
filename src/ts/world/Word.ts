@@ -1,12 +1,15 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import * as _ from 'lodash'
+import { Pane } from 'tweakpane'
+import gsap from 'gsap'
 
 // interfaces
 import { IWord } from '../interfaces/IWord'
 
 import { Basic } from './Basic'
 import Sizes from '../Utils/Sizes'
+import { Resources } from './Resources'
 
 // shader
 import boxVertex from '../../shaders/box/vertex.vs'
@@ -22,6 +25,8 @@ export class World {
   public material: THREE.Material | THREE.ShaderMaterial | any
   public useShader: Boolean = true
   public clock: THREE.Clock
+  public debug: Pane
+  public resources: any
 
   constructor(option: IWord) {
     /**
@@ -37,8 +42,12 @@ export class World {
     this.clock = new THREE.Clock()
 
     this.initialize()
-    this.createBox()
-    this.render()
+
+    this.resources = new Resources(() => {
+      console.log('资源加载完成', this.resources)
+      this.createBox()
+      this.render()
+    })
   }
 
   /**
@@ -47,7 +56,7 @@ export class World {
   public initialize() {
     this.scene.background = new THREE.Color('#000')
     this.camera.position.set(5, 5, 5)
-
+    this.setDebug()
     this.sizes.$on('resize', () => {
       this.renderer.setSize(
         Number(this.sizes.viewport.width),
@@ -80,6 +89,20 @@ export class World {
     const cube = new THREE.Mesh(geometry, this.material)
     this.scene.add(cube)
     this.controls.target = _.cloneDeep(cube.position)
+    const PARAMS = {
+      cubeY: cube.position.y
+    }
+    this.debug
+      .addInput(PARAMS, 'cubeY', { min: -5, max: 5, step: 0.00001 })
+      .on('change', (e) => {
+        cube.position.y = e.value
+      })
+  }
+  /**
+   * debug
+   */
+  private setDebug() {
+    this.debug = new Pane()
   }
   /**
    * 渲染函数
@@ -87,8 +110,8 @@ export class World {
   public render() {
     requestAnimationFrame(this.render.bind(this))
     this.renderer.render(this.scene, this.camera)
-    this.controls.update()
+    this.controls && this.controls.update()
     this.useShader &&
-      (this.material.uniforms.uTime.value = this.clock.getElapsedTime() * 0.5)
+      (this.material.uniforms.uTime.value = this.clock.getElapsedTime())
   }
 }
