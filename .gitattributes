@@ -1,0 +1,8 @@
+# 在 github 中，如果不设置语言，其会对这个repo进行语言自动统计，但有时候不尽人意，比如不是以html语言为主语言，项目却生成了很多大量的html文件，此时统计出现异常，不是自己想要的结果。
+
+# //要对整个语言进行启用和弃用-弃用css语言统计
+
+*.js linguist-detectable=false
+
+# 要对部分文件夹进行不统计，使用linguist-vendored选项
+# fixtures/* linguist-vendored
