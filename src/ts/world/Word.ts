@@ -115,7 +115,10 @@ export default class World {
    * debug
    */
   private setDebug() {
-    this.debug = new Pane()
+    this.debug = new Pane({
+      title: '🎉 qtzxly 🎉',
+      expanded: true,
+    })
   }
   /**
    * 渲染函数
