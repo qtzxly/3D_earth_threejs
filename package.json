@@ -1,20 +1,20 @@
 {
-  "name": "qtzxly",
+  "name": "GhostCat",
   "version": "1.0.0",
   "description": "threejs demo",
   "keywords": [
-    "qtzxly",
+    "GhostCat",
     "3d",
     "threejs",
     "typescript"
   ],
-  "author": "",
+  "author": "GhostCat",
   "license": "MIT",
   "scripts": {
     "dev": "webpack serve --mode development --open chrome.exe",
     "build": "webpack --mode production"
   },
-  "homepage": "qtzxly",
+  "homepage": "https://gcat.cc",
   "devDependencies": {
     "@babel/core": "^7.12.10",
     "@babel/preset-env": "^7.12.11",
@@ -39,9 +39,8 @@
     "gsap": "^3.7.1",
     "lodash": "^4.17.21",
     "normalize.css": "^8.0.1",
-    "three": "^0.130.1",
-    "three-csm": "1.0.2",
+    "pietile-eventemitter": "^1.0.1",
+    "three": "^0.138",
     "tweakpane": "^3.0.5"
   }
 }
-
