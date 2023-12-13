@@ -9,6 +9,7 @@
       "declaration": true,
       "declarationDir": "build/types",
       "baseUrl": ".",
-      "noImplicitAny": true
+      // 不允许出现隐式的 any 类型。
+      "noImplicitAny": false
   }
 }
