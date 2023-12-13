@@ -3,33 +3,46 @@
  * 把模型和图片分开进行加载
  */
 
+import { Material } from "three"
+
 interface ITextures {
-  chinese_name: string
   name: string
-  path: string
+  url: string
 }
 
-interface IResources {
-  textures?: ITextures[]
-  models?: any
+export interface IResources {
+  textures?: ITextures[],
+  models?: Material,
 }
+
+const filePath = './images/earth/'
+const fileSuffix = [
+  'gradient',
+  'redCircle',
+  "label",
+  "aperture",
+  'glow',
+  'light_column',
+  'aircraft'
+]
+
+const textures = fileSuffix.map(item => {
+  return {
+    name: item,
+    url: filePath + item + '.png'
+  }
+})
+
+textures.push({
+  name: 'earth',
+  url: filePath + 'earth.jpg'
+})
+
 const resources: IResources = {
-  textures: [
-    {
-      chinese_name: '科技地球',
-      name: 'earth',
-      path: './images/textures/earth.png'
-    },
-    {
-      chinese_name: '海洋',
-      name: 'ocean',
-      path: './images/textures/ocean.png'
-    },
-    {
-      chinese_name: '房间',
-      name: 'room',
-      path: './images/textures/room.png'
-    }
-  ]
+  textures
 }
-export { resources }
+
+
+export {
+  resources
+}

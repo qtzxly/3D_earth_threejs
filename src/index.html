@@ -3,7 +3,7 @@
 <html>
 
 <head>
-  <title>Webpack 5 + Typescript 4 + Three.js 基础模板</title>
+  <title>3D-earth</title>
   <meta charset="utf-8">
 </head>
 <style>
@@ -17,7 +17,8 @@
     position: relative;
   }
 
-  h1 {
+  h1,
+  h2 {
     position: absolute;
     color: #fff;
     width: 100%;
@@ -28,15 +29,52 @@
     pointer-events: none;
   }
 
-  #threejs-canvas {
+  h2 {
+    pointer-events: all;
+    padding-top: 25vh;
+  }
+
+  h2 a {
+    color: rgb(19, 22, 226);
+    font-size: 30px;
+  }
+
+  #earth-canvas {
     height: 100%;
     width: 100%;
+    background: #010826;
+  }
+
+  #html2canvas {
+    position: absolute;
+    z-index: -1;
+    left: 0;
+    background: rgba(0, 0, 0, 0);
+  }
+
+  .css3d-wapper {
+    pointer-events: none;
+    color: #fff;
+  }
+
+  .css3d-wapper .fire-div {
+    font-size: 20px;
+    font-weight: 600;
+    border-top: 3px solid #0cd1eb;
+    padding: 6px 8px;
+    min-width: 50px;
+    background: rgba(40, 108, 181, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 </style>
 
 <body>
-  <h1>Webpack 5 + Typescript 4 + Three.js 基础模板</h1>
-  <div id="threejs-canvas"></div>
+  <div id="html2canvas" class="css3d-wapper">
+    <div class="fire-div"></div>
+  </div>
+  <div id="earth-canvas"></div>
 </body>
 
 </html>
