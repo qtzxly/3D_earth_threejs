@@ -1,15 +1,7 @@
+import { BoxGeometry, Clock, Color, Mesh, MeshBasicMaterial, PerspectiveCamera, Scene, ShaderMaterial, WebGLRenderer } from "three";
 import {
-  BoxGeometry,
-  Clock,
-  Color,
-  Mesh,
-  MeshBasicMaterial,
-  PerspectiveCamera,
-  Scene,
-  ShaderMaterial,
-  WebGLRenderer
-} from 'three'
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+  OrbitControls
+} from "three/examples/jsm/controls/OrbitControls";
 import * as _ from 'lodash'
 import { Pane } from 'tweakpane'
 import gsap from 'gsap'
@@ -19,30 +11,33 @@ import { IWord } from '../interfaces/IWord'
 
 import { Basic } from './Basic'
 import Sizes from '../Utils/Sizes'
-import { Resources } from './Resources'
+import { Resources } from './Resources';
 
 // shader
 import boxVertex from '../../shaders/box/vertex.vs'
 import boxFragment from '../../shaders/box/fragment.fs'
-import { EventEmitter } from 'pietile-eventemitter'
+import { EventEmitter } from "pietile-eventemitter";
 interface Events {
   historyChange: () => void
+  resize: () => void
 }
 
 export default class World {
-  public basic: Basic
-  public scene: Scene
-  public camera: PerspectiveCamera
+  public basic: Basic;
+  public scene: Scene;
+  public camera: PerspectiveCamera;
   public renderer: WebGLRenderer
-  public controls: OrbitControls
-  public sizes: Sizes
-  public material: ShaderMaterial | MeshBasicMaterial
-  public useShader: Boolean = true
-  public clock: Clock
-  public debug: Pane
-  public resources: Resources
-  public emitter: any
-  public option: IWord
+  public controls: OrbitControls;
+  public sizes: Sizes;
+  public material: ShaderMaterial | MeshBasicMaterial;
+  public useShader: Boolean = true;
+  public clock: Clock;
+  public debug: Pane;
+  public resources: Resources;
+  public emitter: EventEmitter<Events>
+  public option: IWord;
+
+
 
   constructor(option: IWord) {
     /**
@@ -58,6 +53,7 @@ export default class World {
 
     this.sizes = new Sizes(this)
     this.clock = new Clock()
+
 
     this.initialize()
 
@@ -76,12 +72,8 @@ export default class World {
     this.camera.position.set(5, 5, 5)
     this.setDebug()
     this.emitter.on('resize', () => {
-      this.renderer.setSize(
-        Number(this.sizes.viewport.width),
-        Number(this.sizes.viewport.height)
-      )
-      this.camera.aspect =
-        Number(this.sizes.viewport.width) / Number(this.sizes.viewport.height)
+      this.renderer.setSize(Number(this.sizes.viewport.width), Number(this.sizes.viewport.height))
+      this.camera.aspect = Number(this.sizes.viewport.width) / Number(this.sizes.viewport.height)
       this.camera.updateProjectionMatrix()
     })
   }
@@ -89,7 +81,8 @@ export default class World {
    * 创建box
    */
   public createBox() {
-    const geometry = new BoxGeometry(1, 1, 1)
+
+    const geometry = new BoxGeometry(1, 1, 1);
 
     if (this.useShader) {
       this.material = new ShaderMaterial({
@@ -100,18 +93,22 @@ export default class World {
         },
         vertexShader: boxVertex,
         fragmentShader: boxFragment
-      })
+      });
+
     } else {
-      this.material = new MeshBasicMaterial({ color: 0x00ff00 })
+      this.material = new MeshBasicMaterial({ color: 0x00ff00 });
     }
-    const cube = new Mesh(geometry, this.material)
-    this.scene.add(cube)
+    const cube = new Mesh(geometry, this.material);
+    this.scene.add(cube);
     this.controls.target = _.cloneDeep(cube.position)
     const PARAMS = {
       cubeY: cube.position.y
-    }
+    };
     this.debug
-      .addInput(PARAMS, 'cubeY', { min: -5, max: 5, step: 0.00001 })
+      .addInput(
+        PARAMS, 'cubeY',
+        { min: -5, max: 5, step: 0.00001 }
+      )
       .on('change', (e) => {
         cube.position.y = e.value
       })
@@ -129,8 +126,6 @@ export default class World {
     requestAnimationFrame(this.render.bind(this))
     this.renderer.render(this.scene, this.camera)
     this.controls && this.controls.update()
-    this.useShader &&
-      ((this.material as ShaderMaterial).uniforms.uTime.value =
-        this.clock.getElapsedTime())
+    this.useShader && ((this.material as ShaderMaterial).uniforms.uTime.value = this.clock.getElapsedTime())
   }
 }
