@@ -6,6 +6,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 // 引入clean插件
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
+const ESLintPlugin = require('eslint-webpack-plugin')
+
 // webpack中的所有的配置信息都应该写在module.exports中
 module.exports = {
   // 指定入口文件
@@ -89,6 +91,11 @@ module.exports = {
     // 把整个目录copy过去
     new CopyWebpackPlugin({
       patterns: [{ from: path.resolve(__dirname, './static') }]
+    }),
+
+    new ESLintPlugin({
+      context: './src', // 检查目录
+      extensions: ['js', 'jsx', 'ts', 'tsx'] // 文件扩展
     })
   ],
   // 用来设置引用模块
