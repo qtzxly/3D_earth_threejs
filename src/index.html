@@ -3,13 +3,16 @@
 <html>
 
 <head>
-  <title>3D-earth</title>
+  <title>3d</title>
   <meta charset="utf-8">
 </head>
 <style>
   html,
   body {
     height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
   }
 
   body {
@@ -49,6 +52,7 @@
     position: absolute;
     z-index: -1;
     left: 0;
+    top: 0;
     background: rgba(0, 0, 0, 0);
   }
 
@@ -68,9 +72,33 @@
     justify-content: center;
     align-items: center;
   }
+
+  #loading {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 999;
+    background: #010826;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #loading {
+    color: #409EFF;
+    font-size: 16px;
+    letter-spacing: 1px;
+  }
 </style>
 
 <body>
+  <div id="loading">
+    <div>加载资源中...</div>
+  </div>
   <div id="html2canvas" class="css3d-wapper">
     <div class="fire-div"></div>
   </div>
