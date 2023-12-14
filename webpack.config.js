@@ -10,6 +10,9 @@ const ESLintPlugin = require('eslint-webpack-plugin')
 
 // webpack中的所有的配置信息都应该写在module.exports中
 module.exports = {
+  devServer: {
+    port: '8088'
+  },
   // 指定入口文件
   entry: './src/ts/index.ts',
   // 指定打包文件所在目录
@@ -24,8 +27,8 @@ module.exports = {
     // 加上下面的配置，可以在webpack打包时，最外层不再是箭头函数
     // webpack新版本已经不想兼容IE了！233
     environment: {
-      arrowFunction: false
-    }
+      arrowFunction: false,
+    },
   },
   // 指定webpack打包时要使用模块
   module: {
@@ -53,57 +56,57 @@ module.exports = {
                     // 要兼容的目标浏览器
                     targets: {
                       chrome: '58',
-                      ie: '11'
+                      ie: '11',
                     },
                     // 指定corejs的版本
                     // package.json中的版本为3.8.1
                     corejs: '3',
                     // 使用corejs的方式，"usage" 表示按需加载
-                    useBuiltIns: 'usage'
-                  }
-                ]
-              ]
-            }
+                    useBuiltIns: 'usage',
+                  },
+                ],
+              ],
+            },
           },
-          'ts-loader'
+          'ts-loader',
         ],
         // 要排除的文件
-        exclude: /node-modules/
+        exclude: /node-modules/,
       },
       {
         test: /\.(css|scss|sass)$/i,
-        use: ['style-loader', 'css-loader']
+        use: ['style-loader', 'css-loader'],
       },
       // Shaders
       {
         test: /\.(glsl|vs|fs)$/,
-        loader: 'ts-shader-loader'
-      }
-    ]
+        loader: 'ts-shader-loader',
+      },
+    ],
   },
 
   // 配置Webpack插件
   plugins: [
     // new CleanWebpackPlugin(),
     new HTMLWebpackPlugin({
-      template: './src/index.html'
+      template: './src/index.html',
     }),
     // 把整个目录copy过去
     new CopyWebpackPlugin({
-      patterns: [{ from: path.resolve(__dirname, './static') }]
+      patterns: [{ from: path.resolve(__dirname, './static') }],
     }),
 
     new ESLintPlugin({
       context: './src', // 检查目录
-      extensions: ['js', 'jsx', 'ts', 'tsx'] // 文件扩展
-    })
+      extensions: ['js', 'jsx', 'ts', 'tsx'], // 文件扩展
+    }),
   ],
   // 用来设置引用模块
   resolve: {
-    extensions: ['.tsx', '.ts', '.js']
+    extensions: ['.tsx', '.ts', '.js'],
   },
   // 包太大会提示你
   performance: {
-    hints: false
-  }
+    hints: false,
+  },
 }
